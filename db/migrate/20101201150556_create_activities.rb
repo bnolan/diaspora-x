@@ -4,6 +4,8 @@ class CreateActivities < ActiveRecord::Migration
       t.string :verb, :uuid
       t.integer :user_id, :in_reply_to
       t.text :content
+      t.boolean :federated, :default => false
+      t.boolean :deleted, :default => false
       
       t.timestamps
     end

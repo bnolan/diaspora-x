@@ -13,6 +13,8 @@ class HomeControllerTest < ActionController::TestCase
     sign_in :user, users(:ben)
     get :index
     
-    assert_select '.friend a', /rissa/
+    assert_select '.friends.requests li', /sam/
+    assert_select '.friends li', /Rissa/
   end
+  
 end

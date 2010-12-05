@@ -3,6 +3,8 @@ class CreateRelationships < ActiveRecord::Migration
     create_table :relationships do |t|
       t.integer :user_id, :friend_id
       t.boolean :accepted, :default => false
+      t.boolean :federated, :default => false
+      t.boolean :deleted, :default => false
       t.timestamps
     end
   end

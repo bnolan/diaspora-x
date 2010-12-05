@@ -10,3 +10,9 @@ ben_hello:
   verb: post
   content: Hello world!
   created_at: <%= 1.days.ago.to_s(:db) %>
+  
+ben_reply:
+  user: ben
+  verb: post
+  in_reply_to: ben_hello
+  content: BLAH BLAH BLAH

@@ -1,8 +1,25 @@
 require 'test_helper'
 
 class RelationshipTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+
+  test "accept" do
+    relationships(:sam_ben).accept!
+    
+    r = relationships(:sam_ben).reload
+    
+    assert_equal false, r.federated?
+    assert_equal true, r.accepted?
+    assert Relationship.find_by_friend_id_and_user_id_and_accepted(users(:ben), users(:sam), true)
+    assert Relationship.find_by_friend_id_and_user_id_and_accepted(users(:sam), users(:ben), true)
   end
+
+  test "update_reverse!" do
+    # done implicity by the other tests
+  end
+  
+  test "mark_as_deleted" do
+    relationships(:ben_rissa).mark_as_deleted!
+    assert users(:rissa).relationships.empty?
+  end
+  
 end

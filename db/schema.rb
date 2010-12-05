@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(:version => 20101202005112) do
     t.integer  "user_id"
     t.integer  "in_reply_to"
     t.text     "content"
+    t.boolean  "federated",   :default => false
+    t.boolean  "deleted",     :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -26,6 +28,8 @@ ActiveRecord::Schema.define(:version => 20101202005112) do
     t.integer  "user_id"
     t.integer  "friend_id"
     t.boolean  "accepted",   :default => false
+    t.boolean  "federated",  :default => false
+    t.boolean  "deleted",    :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -76,3 +76,7 @@ We don't check that the user is authoritative for an email address, some thought
 ## Invite emails
 
 Friend request emails need to let the invitee respond from their own Diaspora seed. I can see two solutions to this - a community-owned redirector that uses localStorage to track and redirect the user to their own seed, or have a UI device on each seed so that when an invitee follows a link in the invitation email, they can be specify the address of their seed, and have the invitation code forwarded to their seed.
+
+# Todo list
+
+1. Support buddycloud [geo nodes](http://open.buddycloud.com/channel-protocol)

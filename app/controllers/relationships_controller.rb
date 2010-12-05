@@ -18,13 +18,13 @@ class RelationshipsController < ApplicationController
       flash[:message] = "The friend request was rejected"
     end
     
-    r.destroy
+    r.mark_as_deleted!
     
     redirect_to root_url
   end
 
   def create
-    if user = User.find_by_email(params[:friend][:email]) # || User.find_by_jid(params[:email])
+    if user = User.find_by_email(params[:friend][:email]) || User.find_by_jid(params[:friend][:email])
       relationship = current_user.relationships.build(:friend => user)
 
       if relationship.save

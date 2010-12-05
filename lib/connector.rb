@@ -99,6 +99,10 @@ class ConnectorBot < Jabber::Framework::Bot
     activity.save!
   end
   
+  def process_records!
+    records = 
+  end
+  
   protected
   
   def update_user(user)
@@ -137,11 +141,14 @@ class Connector
     User.find(:all, :conditions => { :local => true }).each do |user|
       @bots[user.id] = ConnectorBot.new(user)
     end
-    
-    p = fork do
-      sleep 3600 * 24 # wait 24 hours...
+
+    loop do
+      @bots.each do |id, bot|
+        bot.process_records!
+      end
+      
+      sleep 1
     end
-    Process.waitpid(p)
   end
 end
 

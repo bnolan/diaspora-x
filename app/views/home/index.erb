@@ -7,54 +7,7 @@
     <%= f.submit 'Share' %>
   <% end %>
 
-  <% @activities.each do |a| %>
-    <div class="activity">
-      <div class="grid_1">
-        <%= image_tag 'avatar.png', :class => 'thumb avatar' %>
-      </div>
-      <div class="grid_5">
-        <h4><%= link_to a.user.name, a.user %></h4>
-        <p class="content"><%= a.content %></p>
-        <p class="meta">
-          About <%= time_ago_in_words a.created_at %> ago |
-          <% if a.likes.collect(&:user).include? current_user %>
-            <%= link_to "Unlike", unlike_activity_url(a) %> |
-          <% else %>
-            <%= link_to "Like", like_activity_url(a) %> |
-          <% end %>
-          <%= link_to_javascript "Comment", "$(this).parents('.activity').find('form').show().find('textarea').focus()" %>
-        </p>
-      </div>
-        <% if a.likes.any? or a.comments.any? %>
-          <div class="grid_5 comments">
-            <div class="chevron">&diams;</div>
-
-            <% if a.likes.any? %>
-              <div class="likes">
-                <%= image_tag 'icons/hand_pro.png', :class => 'icon' %> <%= a.likes.collect(&:user).collect(&:name).to_sentence %> <%= 
-  a.likes.length > 1 ? "like" : "likes" %> this.
-              </div>
-            <% end %>
-          
-            <% a.comments.each do |c| %>
-              <div class="comment">
-                <%= image_tag 'avatar.png', :class => 'micro avatar' %>
-                <%= link_to c.user.name, c.user %> <%= c.content %><br />
-                <span class="meta"><%= time_ago_in_words c.created_at %> ago</span>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-          
-        <%= form_for Activity.new, :html => {:class => 'new_activity reply'} do |f| %>
-          <%= f.hidden_field :in_reply_to, :value => a.id %>
-          <%= f.hidden_field :verb, :value => 'comment' %>
-          <%= f.text_area :content %>
-          <%= f.submit 'Comment'%>
-        <% end %>
-      <div class="clear"></div>
-    </div>
-  <% end %>
+  <%= render :partial => "activities/list", :locals => {:activities => @activities} %>
 </div>
 
 <div class="grid_3 prefix_1">
