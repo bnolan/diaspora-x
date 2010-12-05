@@ -26,7 +26,7 @@ Install [ejabberd](http://www.ejabberd.im/) or [openfire](http://www.igniterealt
 
 Set your jabber server domain to be the local name of your box - for example `mymachine.local`. It's better to use a name that is unique, and not just `localhost`, so that other devices on your local network can access your development environment for testing. 
 
-Set the server to allow registrations, and disable a wait time between registartions. On ejabberd, set the `registration_timeout` to `1` in ejabberd.cfg.
+Set the server to allow registrations, and disable a wait time between registrations. On ejabberd, set the `registration_timeout` to `1` in ejabberd.cfg.
 
 Start the server.
 
