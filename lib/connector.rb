@@ -4,8 +4,7 @@ require 'xmpp4r/framework/bot'
 require 'xmpp4r/pubsub'
 require 'xmpp4r/vcard'
 require 'xmpp4r/caps'
-
-Jabber::debug = true
+require 'xmpp4r/roster/helper/roster'
 
 # class VcardCache < Jabber::Vcard::Helper
 #   attr_reader :vcards
@@ -48,16 +47,19 @@ class ConnectorBot < Jabber::Framework::Bot
   
   def initialize(user)
     @user = user
+
     super(@user.jid, @user.encrypted_password)
-    @vcard_helper = Jabber::Vcard::Helper.new(stream)
+
     add_capabilities
     set_presence(nil, "I'm busy aggregating PEP events...")
+
+    @vcard = Jabber::Vcard::Helper.new(stream)
+    @roster = Jabber::Roster::Helper.new(stream)
+    get_roster
   end
   
   def accept_subscription_from?(jid)
-    friend = User.find_or_create_by_jid(jid.to_s)
-    
-    update_user(friend)
+    friend = self.find_by_jid(jid)
 
     relationship = Relationship.find(:first, :conditions => {:user_id => friend.id, :friend_id => @user.id})
     
@@ -74,9 +76,7 @@ class ConnectorBot < Jabber::Framework::Bot
   end
   
   def on_microblog(jid, item)
-    friend = User.find_or_create_by_jid(jid.to_s)
-    
-    update_user(friend)
+    friend = self.find_by_jid(jid)
     
     activity = friend.activities.find_or_create_by_uuid item.attributes['id']
 
@@ -100,22 +100,25 @@ class ConnectorBot < Jabber::Framework::Bot
   end
   
   def process_records!
-    records = 
+    # records = 
   end
   
   protected
   
   def update_user(user)
-    vcard = @vcard_helper.get(user.jid)
+    if user.local?
+      # fixme - log this.
+      return
+    end
+    
+    vcard = @vcard.get(user.jid)
 
     if vcard
       user.update_attributes!(
         :description => vcard['DESC'],
-        :local => false, # (Jabber::JID.new(user.jid).domain == Diaspora::Application.config.server_name),
         :url => vcard['URL'],
         :email => (vcard['USERID'] or user.jid), # unknown-email-address-plz-fix@devise.me - fixme
         :phone => vcard['NUMBER'],
-        :password => 'plz-fix', # fix devise validation - fixme
         :dob => begin
             Date.parse(vcard['BDAY'])
           rescue TypeError
@@ -132,13 +135,43 @@ class ConnectorBot < Jabber::Framework::Bot
       on_microblog(jid,  XPath.first(node, '//item'))
     end
   end
+  
+  def get_roster
+    # @roster.groups.each do |g|
+    #   @roster.find_by_group(g).each do |item|
+    #     friend = self.find_by_jid(item.jid)
+    #     relationship = @user.relationships.find_by_friend_id(friend.id) || @user.relationships.build(:friend_id => friend.id)
+    #     relationship.update_attributes! :accepted => true, :federated => true
+    #   end
+    # end
+  end
+  
+  def find_by_jid(jid)
+    user = User.find_by_jid(jid.to_s)
+    
+    if not user
+      user = User.create!(
+        :jid => jid.to_s,
+        :local => (jid.domain == Diaspora::Application.config.server_name),
+        :email => jid.to_s,
+        :password => 'plz-fix' # fix devise validation - fixme
+      )
+      
+      update_user(user) unless user.local?
+    end
+    
+    user
+  end
+  
 end
 
 class Connector
   def initialize
+    Jabber::debug = true
+
     @bots = {}
     
-    User.find(:all, :conditions => { :local => true }).each do |user|
+    User.find(:all, :conditions => ['local=? and encrypted_password<>?', true, 'plz-fix']).each do |user|
       @bots[user.id] = ConnectorBot.new(user)
     end
 
