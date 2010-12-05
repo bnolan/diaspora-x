@@ -3,7 +3,9 @@
     <h1>
       A social network that is friends with the other social networks
     </h1>
+  </div>
 
+  <div class="grid_6">
     <p>
       This is a branch of <a href="https://github.com/diaspora/diaspora">Diaspora</a> that supports the <a href="http://activitystrea.ms/">Activity Streams</a> standard.
     </p>
@@ -12,12 +14,16 @@
       This is the primary diaspora*x server for public use, or you can <a href="http://github.com/bnolan/diaspora-x">install your own</a> seed.
     </p>
 
-    <br />
-  </div>
+    <h2><span>Create an account</span></h2>
+  
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
 
-  <div class="clear"></div>
+      <%= render :partial => 'devise/registrations/new', :locals => { :f => f } %>
 
-  <div class="grid_5">
+      <div class="f"><%= f.submit "Sign up" %></div>
+    <% end %>
+
     <h2>
       <span>Sign in</span>
     </h2>
@@ -47,17 +53,8 @@
     <% end %>
   </div>
 
-  <div class="grid_6 prefix_1">
-    <h2><span>Create an account</span></h2>
-  
-    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-      <%= devise_error_messages! %>
-
-      <%= render :partial => 'devise/registrations/new', :locals => { :f => f } %>
-
-      <p><%= f.submit "Sign up" %></p>
-    <% end %>
-
+  <div class="grid_4">
+    <%= image_tag "screenshot.jpg", :class => 'screenshot' %>
   </div>
 
   <div class="clear"></div>

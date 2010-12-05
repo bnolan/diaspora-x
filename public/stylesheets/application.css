@@ -13,6 +13,10 @@ html,body {
   font-family: Arial, sans-serif; 
 }
 
+.container_12{
+	position: relative;
+}
+
 a {
   color: #107fc9;
   text-decoration: none; 
@@ -41,7 +45,7 @@ h4 {
 form {
   position: relative; 
 }
-input, button{
+input, button, textarea{
   font: inherit;
   font-size: 12px;
 }
@@ -156,8 +160,9 @@ input[type='text'], input[type='password'], textarea{
 .new_activity.status input{
   border-width: 1px;
   border-radius: 5px;
+	-moz-border-radius: 5px;
   background: -webkit-gradient(linear, 0% 39%, 0% 100%, from(#F6F6F6), to(#D0D0D0));
-  background: -moz-linear-gradient(center bottom, #007bc2 0%, #41b6fa 100%);
+  background: -moz-linear-gradient(center bottom, #F6F6F6 0%, #D0D0D0 100%);
   height: 60px;
   color: #333;
   width: 60px;
@@ -222,22 +227,25 @@ input[type='text'], input[type='password'], textarea{
   display: none;
   background: #f3f3f0;
   padding: 10px;
-  clear: both;
-  margin: 0 52px 0 90px;
+  margin: 5px 0 0 0;
   padding-bottom: 40px;
 }
 
 .reply textarea{
-  width: 370px;
+  width: 354px;
   height: 40px;
 }
 .reply input{
   border-width: 1px;
   border-radius: 2px;
+  -moz-border-radius: 2px;
   background: -webkit-gradient(linear, 0% 39%, 0% 100%, from(#F6F6F6), to(#D0D0D0));
-  background: -moz-linear-gradient(center bottom, #007bc2 0%, #41b6fa 100%);
+  background: -moz-linear-gradient(center bottom, #F6F6F6 0%, #D0D0D0 100%);
+	margin-top: 3px;
   color: #333;
   text-align: center;
+	line-height: 25px;
+	height: 25px;
   font-size: 0.9em;
   display: inline-block;
   float: right;
@@ -407,6 +415,16 @@ input[type='text'], input[type='password'], textarea{
 	text-shadow: 1px 1px 1px white;
 }
 
+.sign_in .screenshot{
+	-webkit-box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+	-moz-box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+	background: white;
+	width: 320px;
+	position: absolute;
+	right: 10px;
+	top: -99px;
+}
+
 .sign_in .icon{
 	margin-right: 5px;
 	position: relative;
@@ -426,4 +444,5 @@ input[type='text'], input[type='password'], textarea{
 	background: white;
 	max-width: 340px;
 	-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+	-moz-box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }

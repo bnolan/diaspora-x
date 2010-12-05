@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def link_to_javascript(text, script, *args)
-    link_to text, "#", :onclick => script
+    link_to text, "#", :onclick => "#{script}; return false"
   end
 
   def header_tab(text, path)

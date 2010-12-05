@@ -15,9 +15,8 @@
         <% end %>
         <%= link_to_javascript "Comment", "$(this).parents('.activity').find('form').show().find('textarea').focus()" %>
       </p>
-    </div>
       <% if a.likes.any? or a.comments.any? %>
-        <div class="grid_5 comments">
+        <div class="comments">
           <div class="chevron">&diams;</div>
 
           <% if a.likes.any? %>
@@ -45,6 +44,7 @@ a.likes.length > 1 ? "like" : "likes" %> this.
         <%= f.text_area :content %>
         <%= f.submit 'Comment'%>
       <% end %>
+    </div>
     <div class="clear"></div>
   </div>
 <% end %>

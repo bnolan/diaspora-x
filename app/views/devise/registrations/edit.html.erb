@@ -10,9 +10,9 @@
     <%= f.text_field :email %></div>
 
     <div class="f">
-      <label>Avatar</label>
+      <label>Picture</label>
       <%= image_tag current_user.gravatar, :class => 'micro avatar', :style => 'vertical-align: middle' %>
-      <%= link_to "Go to gravatar.com to change your avatar...", "http://en.gravatar.com/site/login" %>
+      <%= link_to "Go to gravatar.com to change your picture...", "http://en.gravatar.com/site/login?user=#{current_user.email}" %>
     </div>
     
     <div class="f">
