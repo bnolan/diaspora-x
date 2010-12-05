@@ -1,7 +1,7 @@
 <% activities.each do |a| %>
   <div class="activity">
     <div class="grid_1">
-      <%= image_tag 'avatar.png', :class => 'thumb avatar' %>
+      <%= image_tag a.user.gravatar, :class => 'thumb avatar' %>
     </div>
     <div class="grid_5">
       <h4><%= link_to a.user.name, a.user %></h4>

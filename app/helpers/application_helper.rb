@@ -7,7 +7,7 @@ module ApplicationHelper
   def header_tab(text, path)
     url = (path == root_url ? "/" : url_for(path))
     
-    ("<li class='#{(url == request.request_uri) and 'active'}'>" + link_to(text, url) + "</li>").html_safe
+    ("<li class='#{(url == request.fullpath) and 'active'}'>" + link_to(text, url) + "</li>").html_safe
   end
 
   def content_format(c)

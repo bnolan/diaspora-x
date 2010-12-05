@@ -18,7 +18,7 @@
         <% if current_user %>
           <div class="grid_2 prefix_4">
             <div class="auth">
-              <%= image_tag 'avatar.png', :class => 'micro avatar' %>
+              <%= image_tag current_user.gravatar, :class => 'micro avatar' %>
               <%= link_to current_user.name, '/users/edit' %>
             
               <%= link_to 'Log out', '/users/sign_out', :title => "Sign out", :class => 'signout' %>

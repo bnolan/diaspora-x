@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   # end:conditions => {:}
   
   def gravatar
-    "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest email}"
+    "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest email}?d=mm"
   end
 
   def name

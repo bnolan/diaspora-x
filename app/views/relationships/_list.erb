@@ -1,0 +1,13 @@
+<ul class="friends">
+<% relationships.each do |r| %>
+  <li>
+    <%= image_tag r.friend.gravatar, :class => 'micro avatar' %>
+    <b><%= link_to r.friend.name, r.friend %></b>
+    <% if r.accepted? %>
+      - <%= truncate r.friend.status %>
+    <% else %> 
+       is yet to accept your request.
+    <% end %>
+  </li>
+<% end %>
+</ul>

@@ -41,9 +41,11 @@ h4 {
 form {
   position: relative; 
 }
-input[type='text'], input[type='password'], textarea{
+input, button{
   font: inherit;
   font-size: 12px;
+}
+input[type='text'], input[type='password'], textarea{
   padding: 2px;
 }
 
@@ -114,11 +116,13 @@ input[type='text'], input[type='password'], textarea{
 }
 .header .auth .avatar{
 	float: left;
-	padding-right: 5px;
+	margin-right: 5px;
 	width: 16px;
+	height: 16px;
 	position: relative;
 	top: 3px;
 	border-radius: 2px;
+	border: none;
 }
 .header .auth a.signout{
 	float: right;
@@ -164,8 +168,15 @@ input[type='text'], input[type='password'], textarea{
 
 /* newsfeed */
 
+.avatar.micro{
+	width: 22px;
+	height: 22px;
+	border: 1px solid #ccc;
+}
+
 .avatar.thumb{
   width: 55px;
+	border: 1px solid #ccc;
 }
 
 .activity{
@@ -250,10 +261,6 @@ input[type='text'], input[type='password'], textarea{
   top: 3px;
 }
 
-.micro.avatar{
-  width: 22px;
-}
-
 .notdiaspora{
   text-shadow: 1px 1px 1px white;
   font-weight: bold;
@@ -297,14 +304,13 @@ input[type='text'], input[type='password'], textarea{
 
 .friends{
   margin-left: 3px;
+  color: #aaa;
 }
 
 .friends *{
   margin: 0;
-  color: #aaa;
 } 
-.friends b{
-  color: #555;
+.friends b a{
 }
 .friends li{
   list-style: none;
@@ -315,7 +321,7 @@ input[type='text'], input[type='password'], textarea{
   width: 20px;
   height: 20px;
   top: 6px;
-  padding-right: 5px;
+  margin-right: 5px;
 }
 
 .intro{

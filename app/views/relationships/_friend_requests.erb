@@ -1,0 +1,12 @@
+<ul class="friends requests">
+  <% friend_requests.each do |relationship| %>
+    <li>
+      <%= image_tag relationship.user.gravatar, :class => 'micro avatar' %>
+      <b><%= relationship.user.jid %></b>
+      <span>
+        <%= link_to 'Accept', accept_relationship_url(relationship) %> &nbsp; | &nbsp; 
+        <%= link_to 'Reject', relationship, :method => 'delete' %>
+      </span>
+    </li>
+  <% end %>
+</ul>

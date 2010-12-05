@@ -43,24 +43,12 @@
   </div>
   
   <% if @friend_requests.any? %>
-  <h4>
-    <%= image_tag 'icons/mail.png', :class => 'icon' %>
-    Friendship Requests
-  </h4>
+    <h4>
+      <%= image_tag 'icons/mail.png', :class => 'icon' %>
+      Friendship Requests
+    </h4>
   
-  <ul class="friends requests">
-    <% @friend_requests.each do |relationship| %>
-      <li>
-        <%= image_tag relationship.user.gravatar, :class => 'micro avatar' %>
-        <b><%= relationship.user.jid %></b>
-        <span>
-          <%= link_to 'Accept', accept_relationship_url(relationship) %> &nbsp; | &nbsp; 
-          <%= link_to 'Reject', relationship, :method => 'delete' %>
-        </span>
-      </li>
-    <% end %>
-  </ul>
-  
+    <%= render :partial => 'relationships/friend_requests', :locals => {:friend_requests => @friend_requests} %>
   <% end %>
   
   <h4>
@@ -68,21 +56,9 @@
   </h4>
   
   <%= form_for User.new, :as => :friend, :url => friend_users_url do |f| %>
-    <%= f.text_field :email, :placeholder => "Enter an email address here..." %>
+    <%= f.text_field :email, :placeholder => "Enter an email address here...", :style => 'width: 220px; margin-right: 10px' %>
     <%= submit_tag 'Invite' %>
   <% end %>
   
-  <ul class="friends">
-  <% @relationships.each do |r| %>
-    <li>
-      <%= image_tag r.friend.gravatar, :class => 'micro avatar' %>
-      <b><%= r.friend.name %></b>
-      <% if r.accepted? %>
-        <%= truncate r.friend.status %>
-      <% else %> 
-         is yet to accept your request.
-      <% end %>
-    </li>
-  <% end %>
-  </ul>
+  <%= render :partial => 'relationships/list', :locals => {:relationships => @relationships} %>
 </div>
