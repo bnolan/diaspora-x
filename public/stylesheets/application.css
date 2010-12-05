@@ -406,3 +406,18 @@ input[type='text'], input[type='password'], textarea{
 	position: relative;
 	top: 3px;
 }
+
+/*
+ * Embeds
+ */ 
+
+.embed{
+	margin: 20px 0;
+}
+.embed img{
+	border: 1px solid #ccc;
+	padding: 10px;
+	background: white;
+	max-width: 340px;
+	-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}

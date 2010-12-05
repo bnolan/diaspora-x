@@ -41,4 +41,6 @@ app.initialize = function(){
 
 $(document).ready(function(){
   app.initialize();
+
+	$('p.content a').embedly({ maxWidth : 360, 'method' : 'afterParent' });
 });

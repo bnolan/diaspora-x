@@ -3,7 +3,7 @@
 <head>
   <title>Diaspora*x <%= (t = yield(:title).present?) ? " :: #{t}" : "" %></title>
   <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag 'jquery','jquery-ui', 'rails','application' %>
+  <%= javascript_include_tag 'jquery','jquery-ui', 'rails', 'jquery.embedly', 'application' %>
   <%= csrf_meta_tag %>
 </head>
 <body>

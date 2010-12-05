@@ -9,5 +9,10 @@ module ApplicationHelper
     
     ("<li class='#{(url == request.request_uri) and 'active'}'>" + link_to(text, url) + "</li>").html_safe
   end
-  
+
+  def content_format(c)
+    auto_link(c, :html => { :class => 'external' }) do |text|
+       truncate(text.sub(/^http...www./,''), :length => 25)
+     end    
+  end
 end

@@ -5,7 +5,7 @@
     </div>
     <div class="grid_5">
       <h4><%= link_to a.user.name, a.user %></h4>
-      <p class="content"><%= a.content %></p>
+      <p class="content"><%= content_format a.content %></p>
       <p class="meta">
         About <%= time_ago_in_words a.created_at %> ago |
         <% if a.likes.collect(&:user).include? current_user %>
@@ -30,7 +30,9 @@ a.likes.length > 1 ? "like" : "likes" %> this.
           <% a.comments.each do |c| %>
             <div class="comment">
               <%= image_tag 'avatar.png', :class => 'micro avatar' %>
-              <%= link_to c.user.name, c.user %> <%= c.content %><br />
+              <p class="content">
+                <%= link_to c.user.name, c.user %> <%= content_format c.content %>
+              </p>
               <span class="meta"><%= time_ago_in_words c.created_at %> ago</span>
             </div>
           <% end %>
