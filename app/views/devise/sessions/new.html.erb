@@ -1,43 +1,65 @@
-<div class="grid_5">
-  <h2>Sign in</h2>
+<div class="sign_in">
+  <div class="grid_12">
+    <h1>
+      A social network that is friends with the other social networks
+    </h1>
 
-  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-    <div class="f">
-      <%= f.label :username%>
-      <%= f.text_field :username, :style => 'width: 120px'  %>
-    </div>
+    <p>
+      This is a branch of <a href="https://github.com/diaspora/diaspora">Diaspora</a> that supports the <a href="http://activitystrea.ms/">Activity Streams</a> standard.
+    </p>
+    
+    <p>
+      This is the primary diaspora*x server for public use, or you can <a href="http://github.com/bnolan/diaspora-x">install your own</a> seed.
+    </p>
 
-    <div class="f">
-      <%= f.label :password %>
-      <%= f.password_field :password, :style => 'width: 120px' %>
-    </div>
+    <br />
+  </div>
+
+  <div class="clear"></div>
+
+  <div class="grid_5">
+    <h2>
+      <span>Sign in</span>
+    </h2>
+
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+      <div class="f">
+        <%= f.label :username%>
+        <%= f.text_field :username, :style => 'width: 120px'  %>
+      </div>
+
+      <div class="f">
+        <%= f.label :password %>
+        <%= f.password_field :password, :style => 'width: 120px' %>
+      </div>
     
 
-    <% if devise_mapping.rememberable? -%>
-      <div class="f cb">
-        <%= f.check_box :remember_me, :checked => true %> <%= f.label :remember_me %>
+      <% if devise_mapping.rememberable? -%>
+        <div class="f cb">
+          <%= f.check_box :remember_me, :checked => true %> <%= f.label :remember_me %>
+        </div>
+      <% end -%>
+
+      <div class="f">
+        <%= f.submit "Sign in" %>
+        <%= render :partial => "devise/shared/links" %>
       </div>
-    <% end -%>
+    <% end %>
+  </div>
 
-    <div class="f">
-      <%= f.submit "Sign in" %>
-      <%= render :partial => "devise/shared/links" %>
-    </div>
-  <% end %>
-</div>
-
-<div class="grid_6 prefix_1">
-  <h2>Create an account</h2>
+  <div class="grid_6 prefix_1">
+    <h2><span>Create an account</span></h2>
   
-  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-    <%= devise_error_messages! %>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
 
-    <%= render :partial => 'devise/registrations/new', :locals => { :f => f } %>
+      <%= render :partial => 'devise/registrations/new', :locals => { :f => f } %>
 
-    <p><%= f.submit "Sign up" %></p>
-  <% end %>
+      <p><%= f.submit "Sign up" %></p>
+    <% end %>
+
+  </div>
+
+  <div class="clear"></div>
 
 </div>
-
-<div class="clear"></div>
-

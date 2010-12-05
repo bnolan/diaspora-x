@@ -19,9 +19,9 @@
           <div class="grid_2 prefix_4">
             <div class="auth">
               <%= image_tag 'avatar.png', :class => 'micro avatar' %>
-              <%= current_user.name %>
+              <%= link_to current_user.name, '/users/edit' %>
             
-              <%= link_to 'Log out', '/users/sign_out', :title => "Sign out" %>
+              <%= link_to 'Log out', '/users/sign_out', :title => "Sign out", :class => 'signout' %>
             </div>
           </div>
         <% end %>

@@ -120,7 +120,7 @@ input[type='text'], input[type='password'], textarea{
 	top: 3px;
 	border-radius: 2px;
 }
-.header .auth a{
+.header .auth a.signout{
 	float: right;
 }
 
@@ -391,4 +391,18 @@ input[type='text'], input[type='password'], textarea{
 .f.cb label{
 	position: relative;
 	left: 0;
+}
+
+/*
+ * Sign in
+ */
+
+.sign_in h1{
+	text-shadow: 1px 1px 1px white;
+}
+
+.sign_in .icon{
+	margin-right: 5px;
+	position: relative;
+	top: 3px;
 }

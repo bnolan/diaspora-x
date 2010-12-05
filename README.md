@@ -46,8 +46,8 @@ Now you can install the gem bundle, generate the database, start the connector a
 
     bundle install
     rake db:migrate
-    script/runner Connector.new &
-    script/server &
+    rails runner Connector.new &
+    rails server &
     
 You should now be able to browse to the site at [localhost:3000](http://www.localhost:3000/).
 

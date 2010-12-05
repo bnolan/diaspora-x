@@ -2,7 +2,12 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 
 body{font:13px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif}a:focus{outline:1px dotted}hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}
 
-h1{font-size:2em}h2{font-size:1.6em}h3{font-size:1.4em}h4{font-size:1.1em}h5{font-size:1em}
+h1{
+	font-size: 1.5em;
+}
+h2{
+	font-size: 1.1em;
+}
 
 ol{list-style:decimal}ul{list-style:disc}li{margin-left:30px}p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table,address,fieldset{margin-bottom:20px}
 small{font-size: 0.9em; color: #777;}
