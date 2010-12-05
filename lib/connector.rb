@@ -54,7 +54,6 @@ class ConnectorBot < Jabber::Framework::Bot
     set_presence(nil, "I'm busy aggregating PEP events...")
 
     @vcard = Jabber::Vcard::Helper.new(stream)
-    @roster = Jabber::Roster::Helper.new(stream)
     get_roster
   end
   
@@ -137,13 +136,13 @@ class ConnectorBot < Jabber::Framework::Bot
   end
   
   def get_roster
-    # @roster.groups.each do |g|
-    #   @roster.find_by_group(g).each do |item|
-    #     friend = self.find_by_jid(item.jid)
-    #     relationship = @user.relationships.find_by_friend_id(friend.id) || @user.relationships.build(:friend_id => friend.id)
-    #     relationship.update_attributes! :accepted => true, :federated => true
-    #   end
-    # end
+    roster.groups.each do |g|
+      roster.find_by_group(g).each do |item|
+        friend = self.find_by_jid(item.jid)
+        relationship = @user.relationships.find_by_friend_id(friend.id) || @user.relationships.build(:friend_id => friend.id)
+        relationship.update_attributes! :accepted => true, :federated => true
+      end
+    end
   end
   
   def find_by_jid(jid)
@@ -167,7 +166,7 @@ end
 
 class Connector
   def initialize
-    Jabber::debug = true
+    Jabber::debug = (Rails::env != 'production')
 
     @bots = {}
     
