@@ -1,8 +1,13 @@
 require 'test_helper'
 
 class ActivityTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+
+  test "like uniqueness" do
+    Activity.create! :in_reply => activities(:ben_hello), :user => users(:ben)
+    
+    assert_raises ActiveRecord::RecordInvalid do
+      Activity.create! :in_reply => activities(:ben_hello), :user => users(:ben)
+    end
   end
+  
 end
