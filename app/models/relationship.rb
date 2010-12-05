@@ -5,7 +5,7 @@ class Relationship < ActiveRecord::Base
   
   validates_uniqueness_of :friend_id, :scope => :user_id
 
-  attr_protected :accepted
+  # attr_protected :accepted
   
   def accept!
     self.accepted = true

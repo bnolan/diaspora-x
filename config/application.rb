@@ -42,4 +42,4 @@ module Diaspora
 end
 
 # Load the connector
-# require "#{Rails::Root}/lib/connector.rb"
+require "connector.rb"

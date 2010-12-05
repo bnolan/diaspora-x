@@ -40,10 +40,10 @@
     </div>
     
     <div class='container_12'>
-      <% if flash[:message]%>
-        <div class="flash">
+      <% flash.keys.each do |key| %>
+        <div class="flash <%= key %>">
           <%= image_tag 'icons/star_fav_empty.png', :class => 'icon' %>
-          <%= flash[:message] %>.
+          <%= flash[key] %>
         </div>
       <% end %>
       

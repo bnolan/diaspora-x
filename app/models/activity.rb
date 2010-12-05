@@ -7,7 +7,7 @@ class Activity < ActiveRecord::Base
     where("in_reply_to is null AND user_id in (?)", user.friends.collect(&:id).push(user.id))
   }
 
-  validates_uniqueness_of :user_id, :scope => :in_reply_to, :when => proc { verb == 'like' }
+  validates_uniqueness_of :user_id, :scope => :in_reply_to, :if => Proc.new { verb == 'like' }
   
   def likes
     Activity.find(:all, :conditions => {:verb => 'like', :in_reply_to => id})
