@@ -1,0 +1,18 @@
+<iq type="set" id="aac1a" >
+<vCard xmlns="vcard-temp" version="2.0" prodid="-//HandGen//NONSGML vGen v1.0//EN" >
+<FN>Frances</FN>
+<NICKNAME>frances</NICKNAME>
+<BDAY>1996-07-10</BDAY>
+<TEL>
+<HOME/>
+<VOICE/>
+<NUMBER>123-123-1234</NUMBER>
+</TEL>
+<EMAIL>
+<INTERNET/>
+<USERID>frances@gmail.com</USERID>
+</EMAIL>
+<URL>http://frances.com/</URL>
+<DESC>I am frances yeah that's right!</DESC>
+</vCard>
+</iq>

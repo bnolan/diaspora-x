@@ -1,0 +1,43 @@
+<div class="grid_5">
+  <h2>Sign in</h2>
+
+  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+    <div class="f">
+      <%= f.label :username%>
+      <%= f.text_field :username, :style => 'width: 120px'  %>
+    </div>
+
+    <div class="f">
+      <%= f.label :password %>
+      <%= f.password_field :password, :style => 'width: 120px' %>
+    </div>
+    
+
+    <% if devise_mapping.rememberable? -%>
+      <div class="f cb">
+        <%= f.check_box :remember_me, :checked => true %> <%= f.label :remember_me %>
+      </div>
+    <% end -%>
+
+    <div class="f">
+      <%= f.submit "Sign in" %>
+      <%= render :partial => "devise/shared/links" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="grid_6 prefix_1">
+  <h2>Create an account</h2>
+  
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+    <%= devise_error_messages! %>
+
+    <%= render :partial => 'devise/registrations/new', :locals => { :f => f } %>
+
+    <p><%= f.submit "Sign up" %></p>
+  <% end %>
+
+</div>
+
+<div class="clear"></div>
+

@@ -1,0 +1,11 @@
+<div class="f"><%= f.label :username %>
+<%= f.text_field :username, :style => 'width: 120px' %> @ <%= Diaspora::Application.config.server_name %></div>
+
+<div class="f"><%= f.label :email %>
+<%= f.text_field :email %></div>
+
+<div class="f"><%= f.label :password, "Password" %>
+<%= f.password_field :password, :style => 'width: 80px' %></div>
+
+<div class="f"><%= f.label :password_confirmation, 'Confirm Password' %>
+<%= f.password_field :password_confirmation, :style => 'width: 80px' %></div>

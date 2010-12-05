@@ -1,0 +1,135 @@
+<div class="grid_7">
+  
+  <%= form_for Activity.new, :html => {:class => 'new_activity status'} do |f| %>
+    <h4>What are you doing now?</h4>
+    <%= f.hidden_field :verb, :value => 'status' %>
+    <%= f.text_area :content %>
+    <%= f.submit 'Share' %>
+  <% end %>
+
+  <% @activities.each do |a| %>
+    <div class="activity">
+      <div class="grid_1">
+        <%= image_tag 'avatar.png', :class => 'thumb avatar' %>
+      </div>
+      <div class="grid_5">
+        <h4><%= link_to a.user.name, a.user %></h4>
+        <p class="content"><%= a.content %></p>
+        <p class="meta">
+          About <%= time_ago_in_words a.created_at %> ago |
+          <% if a.likes.collect(&:user).include? current_user %>
+            <%= link_to "Unlike", unlike_activity_url(a) %> |
+          <% else %>
+            <%= link_to "Like", like_activity_url(a) %> |
+          <% end %>
+          <%= link_to_javascript "Comment", "$(this).parents('.activity').find('form').show().find('textarea').focus()" %>
+        </p>
+      </div>
+        <% if a.likes.any? or a.comments.any? %>
+          <div class="grid_5 comments">
+            <div class="chevron">&diams;</div>
+
+            <% if a.likes.any? %>
+              <div class="likes">
+                <%= image_tag 'icons/hand_pro.png', :class => 'icon' %> <%= a.likes.collect(&:user).collect(&:name).to_sentence %> <%= 
+  a.likes.length > 1 ? "like" : "likes" %> this.
+              </div>
+            <% end %>
+          
+            <% a.comments.each do |c| %>
+              <div class="comment">
+                <%= image_tag 'avatar.png', :class => 'micro avatar' %>
+                <%= link_to c.user.name, c.user %> <%= c.content %><br />
+                <span class="meta"><%= time_ago_in_words c.created_at %> ago</span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+          
+        <%= form_for Activity.new, :html => {:class => 'new_activity reply'} do |f| %>
+          <%= f.hidden_field :in_reply_to, :value => a.id %>
+          <%= f.hidden_field :verb, :value => 'comment' %>
+          <%= f.text_area :content %>
+          <%= f.submit 'Comment'%>
+        <% end %>
+      <div class="clear"></div>
+    </div>
+  <% end %>
+</div>
+
+<div class="grid_3 prefix_1">
+  
+</div>
+
+<div class="grid_4 sidebar">
+  
+  <!--
+  <div class="connect">
+    <%= check_box_tag "connect" %> Connect with your gmail contacts<br />
+    <small>
+      This will load your contacts using javascript, so that you can add your friends
+      using the autocomplete. No information is sent to the
+      <span class="notdiaspora">notdiaspora*</span> server.
+    </small>
+  </div>
+  -->
+  
+  <div class="intro">
+    <h4>
+      <%= image_tag 'icons/net_comp.png', :class => 'icon' %> You are using a distributed social network
+    </h4>
+    
+    <p>
+       This site is based on <a href="http://onesocialweb.org/spec/1.0/osw-activities.html">Activitystreams</a>
+       and interoperates with other sites using the same protocol. Your friends can add you at this address:
+    </p>
+    
+    <p>
+      &nbsp; &nbsp; <b><%= current_user.jid %></b>
+    </p>
+  </div>
+  
+  <% if @friend_requests.any? %>
+  <h4>
+    <%= image_tag 'icons/mail.png', :class => 'icon' %>
+    Friendship Requests
+  </h4>
+  
+  <ul class="friends requests">
+    <% @friend_requests.each do |relationship| %>
+      <li>
+        <%= image_tag relationship.user.gravatar, :class => 'micro avatar' %>
+        <b><%= relationship.user.jid %></b>
+        <span>
+          <%= link_to 'Accept', accept_relationship_url(relationship) %> &nbsp; | &nbsp; 
+          <%= link_to 'Reject', relationship, :method => 'delete' %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+  
+  <% end %>
+  
+  <h4>
+    <%= image_tag 'icons/user.png', :class => 'icon' %> Friends
+  </h4>
+  
+  <%= form_for User.new, :as => :friend, :url => friend_users_url do |f| %>
+    <%= f.text_field :email, :placeholder => "Enter an email address here..." %>
+    <%= submit_tag 'Invite' %>
+  <% end %>
+  
+  <ul class="friends">
+  <% @relationships.each do |r| %>
+    <li>
+      <%= image_tag r.friend.gravatar, :class => 'micro avatar' %>
+      <b><%= r.friend.name %></b>
+      <% if r.accepted? %>
+        <%= truncate r.friend.status %>
+      <% else %> 
+         is yet to accept your request.
+      <% end %>
+    </li>
+  <% end %>
+  </ul>
+</div>

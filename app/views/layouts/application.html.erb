@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Diaspora*x <%= (t = yield(:title).present?) ? " :: #{t}" : "" %></title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag 'jquery','jquery-ui', 'rails','application' %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+    <div id='notification'></div> 
+
+    <div class='header'>
+      <div class="container_12">
+        <div class="grid_5">
+          <h1><a href="/">DIASPORA*</a> <span class='sub_text'>X</span></h1>
+        </div>
+
+        <% if current_user %>
+          <div class="grid_2 prefix_4">
+            <div class="auth">
+              <%= image_tag 'avatar.png', :class => 'micro avatar' %>
+              <%= current_user.name %>
+            
+              <%= link_to 'Log out', '/users/sign_out', :title => "Sign out" %>
+            </div>
+          </div>
+        <% end %>
+        
+        <div class="clear"></div>
+        
+        <ul class="tabs">
+          <% if current_user%>
+            <li class="active"><%= link_to "News Feed", root_url %></li>
+          <% end %>
+          <li class="right"><%= link_to "Github", "http://github.com/bnolan/diaspora-x" %></li>
+        </ul>
+          
+      </div>
+    </div>
+    
+    <div class='container_12'>
+      <% if flash[:message]%>
+        <div class="flash">
+          <%= image_tag 'icons/star_fav_empty.png', :class => 'icon' %>
+          <%= flash[:message] %>.
+        </div>
+      <% end %>
+      
+      <%= yield %>
+
+      <div class='clear'></div> 
+    </div> 
+    
+    <!--footer> 
+      <div class='container'> 
+        <div class='brandon'>POWERED BY DIASPORA*</div> 
+        <ul id='footer_nav'> 
+          <li><a href="http://twitter.com/joindiaspora">@joindiaspora</a></li> 
+          <li><a href="https://github.com/diaspora/diaspora">github</a></li> 
+          <li><a href="http://blog.joindiaspora.com">blog</a></li> 
+          <li><a href="http://localhost:3000/source.tar.gz">code</a></li> 
+        </ul> 
+      </div> 
+    </footer--> 
+  </body> 
+</html>

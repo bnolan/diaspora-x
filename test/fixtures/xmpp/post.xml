@@ -1,0 +1,26 @@
+<iq type="set" id="xyzxyz" >
+<pubsub xmlns='http://jabber.org/protocol/pubsub'>
+<publish node="urn:xmpp:microblog:0" >
+<item id="1234:1234:1234:1234">
+<entry xmlns="http://www.w3.org/2005/Atom" 
+xmlns:activity="http://activitystrea.ms/spec/1.0/" 
+xmlns:osw="http://onesocialweb.org/spec/1.0/">
+<title>to be or not to be ?</title>
+<activity:verb>http://activitystrea.ms/schema/1.0/post</activity:verb>
+<activity:object>
+<activity:object-type>http://onesocialweb.org/spec/1.0/object/status</activity:object-type>
+<content type="text/plain">to be or not to be ?</content>
+</activity:object>
+<osw:acl-rule>
+<osw:acl-action permission="http://onesocialweb.org/spec/1.0/acl/permission/grant">
+http://onesocialweb.org/spec/1.0/acl/action/view
+</osw:acl-action>
+<osw:acl-subject type="http://onesocialweb.org/spec/1.0/acl/subject/everyone"/>
+</osw:acl-rule>
+<published>2008-05-08T18:30:02Z</published>
+<updated>2008-05-08T18:30:02Z</updated>
+</entry>
+</item>
+</publish>
+</pubsub>
+</iq>
