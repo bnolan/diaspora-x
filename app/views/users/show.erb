@@ -2,4 +2,6 @@
   <%= @user.name %>
 </h1>
 
-<%= render :partial => 'activities/list', :locals => { :activities => @activities} %>  
+<div class="grid_7">
+  <%= render :partial => 'activities/list', :locals => { :activities => @activities} %>  
+</div>

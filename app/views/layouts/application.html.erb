@@ -30,7 +30,8 @@
         
         <ul class="tabs">
           <% if current_user%>
-            <li class="active"><%= link_to "News Feed", root_url %></li>
+            <%= header_tab 'News feed', root_url %>
+            <%= header_tab 'Profile', current_user %>
           <% end %>
           <li class="right"><%= link_to "Github", "http://github.com/bnolan/diaspora-x" %></li>
         </ul>

@@ -17,13 +17,13 @@ class Activity < ActiveRecord::Base
     Activity.find(:all, :conditions => {:verb => 'comment', :in_reply_to => id})
   end
 
-  def summary
-    if verb == 'post'
-      "updated their status:\n\n" + content
-    elsif verb == 'like'
-      "liked your status update."
-    end
-  end
+  # def summary
+  #   if verb == 'post'
+  #     "updated their status:\n\n" + content
+  #   elsif verb == 'like'
+  #     "liked your status update."
+  #   end
+  # end
 
   def mark_as_deleted!
     self.deleted = true
