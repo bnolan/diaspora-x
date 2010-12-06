@@ -4,6 +4,8 @@ You will probably want to set up diaspora\*x on your laptop / development machin
 
 <small>Note that changes to diaspora*x are bundled up into semi-regular pushes back to Diaspora trunk.</small>
 
+Then go to config/
+
 # Register a virtual private server (5 minutes)
 
 _Diaspora\*x is under constant development and it's recommended you use a virtual private server until a stable release is available._
@@ -116,6 +118,12 @@ Now install rubygems from source. First download it from [rubygems.org](http://r
 Finally - install bundler and rake.
 
     gem install bundler rake
+
+# Install postgres
+
+    sudo aptitude install postgresql
+    
+
 
 # Install the diaspora-x app
 

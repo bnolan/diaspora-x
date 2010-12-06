@@ -47,10 +47,10 @@ Diaspora::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  # For devise invitable
-  config.action_mailer.default_url_options = { :host => config.server_name }
-
   # Production
   config.server_name = "diaspora-x.com"
+
+  # For devise invitable
+  config.action_mailer.default_url_options = { :host => config.server_name }
 
 end

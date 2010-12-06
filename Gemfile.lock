@@ -46,6 +46,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    pg (0.9.0)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -81,6 +82,7 @@ PLATFORMS
 DEPENDENCIES
   devise
   devise_invitable
+  pg
   rails (= 3.0.1)
   sqlite3-ruby
   xmpp4r
