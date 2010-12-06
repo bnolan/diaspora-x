@@ -122,8 +122,18 @@ Finally - install bundler and rake.
 # Install postgres
 
     sudo aptitude install postgresql
-    
 
+Set the postgres authentication settings. `Edit /etc/postgresql/8.4/main/pg_hba.conf` and change the first ident line to:
+
+    local   all         all                               ident sameuser
+
+Then restart postgres:
+
+    /etc/init.d/postgresql-8.4 restart
+    
+Create the database
+
+    createdb -E utf8 diasporax_production
 
 # Install the diaspora-x app
 
@@ -162,6 +172,19 @@ Then on your _local box_:
     git remote add prod yourdomain.com:/var/apps/diaspora-x
     git config remote.prod.fetch +master:master
     git push prod master:master
+
+# Configure apache
+
+Edit `config/apache.conf` on your local box, to match the domain name that you set diaspora-x up on. Then deploy it to production and copy the config to `/etc/apache2/sites-available/diaspora-x`.
+
+Then enable your site:
+
+    sudo a2enmod headers
+    sudo a2enmod rewrite
+    sudo a2ensite diaspora-x
+    /etc/init.d/apache2 restart
+
+If everything went well - you should now be able to browse to http://yoursite.com/ and be presented by the login page.
 
 # Set up monit to run connector.rb
 
