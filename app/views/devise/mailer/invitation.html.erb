@@ -1,3 +1,7 @@
+<html>
+<head>
+</head>
+<body>
 <p>Hello <%= @resource.email %>!</p>
 
 <% friend = @resource.friend_requests.any? ? @resource.friend_requests.first.user : nil %>
@@ -32,3 +36,5 @@
   </ul>
 
 <% end%>
+</body>
+</html>

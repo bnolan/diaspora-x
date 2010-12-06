@@ -6,6 +6,10 @@ You will probably want to set up diaspora\*x on your laptop / development machin
 
 Then go to config/
 
+# Purchase a domain (5 minutes)
+
+It works best if you set up diaspora-x on your own domain. Support for subdomains and different domains between the jabber server and the rails app aren't supported yet.
+
 # Register a virtual private server (5 minutes)
 
 _Diaspora\*x is under constant development and it's recommended you use a virtual private server until a stable release is available._
@@ -16,9 +20,15 @@ _Diaspora\*x is under constant development and it's recommended you use a virtua
 
 Go through the usual steps on a new box, if you are new to ubuntu - slicehost has a [good guide](http://articles.slicehost.com/2008/4/25/ubuntu-hardy-setup-page-1). You should take care to set up your iptables (firewall) rules correctly.
 
-Make sure you run:
+Make sure you update your system before you start installing the packages below.
 
     sudo aptitude update
+    
+You also need to [install postfix](http://library.linode.com/email/postfix/gateway-ubuntu-10.04-lucid) so that your system can send invitation emails.
+
+    sudo aptitude install postfix
+    
+Choose Internet site, and set the name of your domain. You should also create correct ssl certs for your postfix server, but as an interim measure you can edit `/etc/postfix/main.cnf` and set `smtpd_use_tls=no`.
     
 # Install ejabberd (10 minutes)
 
@@ -49,10 +59,6 @@ Restart ejabberd:
     sudo /etc/init.d/ejabberd restart
 
 If you are having problems configuring ejabberd, seed [this guide](http://library.linode.com/communications/xmpp/ejabberd/ubuntu-9.04-jaunty) from Linode.
-
-# Purchase a domain (5 minutes)
-
-It works best if you set up diaspora-x on your own domain. Support for subdomains and different domains between the jabber server and the rails app aren't supported yet.
 
 # Configure DNS (10 minutes)
 
