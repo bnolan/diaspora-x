@@ -11,9 +11,9 @@ class RelationshipsControllerTest < ActionController::TestCase
   end
 
   test "accept fail" do
-    sign_in :user, users(:sam)
+    sign_in :user, users(:doug)
     assert_raises ActiveRecord::RecordNotFound do
-      post :accept, :id => relationships(:sam_ben).id
+      post :accept, :id => relationships(:doug_ben).id
     end
   end
   

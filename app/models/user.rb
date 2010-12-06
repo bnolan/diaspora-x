@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :email, :password, :password_confirmation, :remember_me
 
-  validates_uniqueness_of :jid # , :when => Proc.new { local? }
+  validates_presence_of :username
+  validates_uniqueness_of :jid, :if => Proc.new { jid.present? }
   
   has_many :activities
   has_many :relationships
@@ -35,7 +36,15 @@ class User < ActiveRecord::Base
   end
 
   def name
-    attributes[:name] or jid.sub(/@.+/,'').capitalize
+    if attributes['name'].present?
+      attributes['name'] 
+    elsif jid.present?
+      jid.sub(/@.+/,'').capitalize
+    elsif email.present?
+      email.sub(/@.+/,'').capitalize
+    else
+      raise Exception, "Could not get a name for the user."
+    end
   end
 
   def status
@@ -44,6 +53,13 @@ class User < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def invite!
+    generate_invitation_token if self.invitation_token.nil?
+    self.invitation_sent_at = Time.now.utc
+    save(:validate => false)
+    ::Devise.mailer.invitation(self).deliver
   end
   
   # @activities = Activity.find(:all, :order => 'created_at desc', :conditions => {:in_reply_to => nil, :type => 'status'}, :limit => 50)

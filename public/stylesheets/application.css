@@ -446,3 +446,17 @@ input[type='text'], input[type='password'], textarea{
 	-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 	-moz-box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
+
+
+/*
+ * Errors
+ */
+
+.field_with_errors{
+	display: inline;
+}
+
+.field_with_errors input{
+	background: #ffa;
+	color: #700;
+}

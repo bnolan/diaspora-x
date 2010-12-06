@@ -18,10 +18,6 @@ Diaspora::Application.routes.draw do
   devise_for :users
   
   resources :users do
-    collection do
-      post :friend
-      post :unfriend
-    end
   end
   
   resources :relationships do

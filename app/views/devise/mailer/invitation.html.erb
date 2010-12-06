@@ -1,8 +1,34 @@
 <p>Hello <%= @resource.email %>!</p>
 
-<p>Someone has invited you to <%= root_url %>, you can accept it through the link below.</p>
+<% friend = @resource.friend_requests.any? ? @resource.friend_requests.first.user : nil %>
+<p>
+  <% if friend %>
+    <%= friend.name %>
+  <% else %>
+    Someone
+  <% end %> has invited you to use Diaspora*x at <%= root_url %>, you can accept it through the link below.
+</p>
 
 <p><%= link_to 'Accept invitation', accept_invitation_url(@resource, :invitation_token => @resource.invitation_token) %></p>
 
-<p>If you don't want to accept the invitation, please ignore this email.<br />
-Your account won't be created until you access the link above and set your password.</p>
+<p>
+  If you don't want to accept the invitation, please ignore this email.<br />
+  Your account won't be created until you access the link above and set your password.
+</p>
+
+<% if friend and friend.activities.wall_posts.any? %>
+
+  <p>
+    <b>Recent activity by <%= friend.name %></b>:
+  </p>
+
+  <ul>
+    <% friend.activities.wall_posts.each do |a| %>
+      <li>
+        <%= a.content %><br />
+        <small style="color: #777"><%= time_ago_in_words a %> ago</small>
+      </li>
+    <% end %>
+  </ul>
+
+<% end%>

@@ -10,12 +10,20 @@ ben:
   jid: ben@boomba.local
   username: ben
   email: bnolan@example.com
+  confirmed_at: <%= 1.days.ago.to_s(:db) %>
   
 rissa:
   jid: rissa@boomba.local
   username: rissa
   email: rissa@example.com
-  
+  confirmed_at: <%= 1.days.ago.to_s(:db) %>
+
+doug:
+  jid: doug@boomba.local
+  username: doug
+  email: doug@example.com
+  confirmed_at: <%= 1.days.ago.to_s(:db) %>
+    
 sam:
   jid: sam@other.jabber
   email: sam@example.com

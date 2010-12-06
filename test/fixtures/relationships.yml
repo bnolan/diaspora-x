@@ -20,7 +20,12 @@ sam_ben:
   user: sam
   friend: ben
   accepted: false
-  
+
+doug_ben:
+  user: doug
+  friend: ben
+  accepted: false
+
 ben_joe:
   user: ben
   friend: joe

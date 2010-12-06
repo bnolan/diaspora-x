@@ -55,7 +55,7 @@
     <%= image_tag 'icons/user.png', :class => 'icon' %> Friends
   </h4>
   
-  <%= form_for User.new, :as => :friend, :url => friend_users_url do |f| %>
+  <%= form_for User.new, :as => :friend, :url => relationships_url do |f| %>
     <%= f.text_field :email, :placeholder => "Enter an email address here...", :style => 'width: 220px; margin-right: 10px' %>
     <%= submit_tag 'Invite' %>
   <% end %>

@@ -7,7 +7,11 @@ class ActivitiesController < ApplicationController
   
   def like
     @activity = Activity.find(params[:id])
-    activity = current_user.activities.create!(:in_reply => @activity, :verb => 'like')
+    if @activity.replies.find_by_verb_and_user_id('like', current_user.id)
+      flash[:message] = "You already like this."
+    else
+      activity = current_user.activities.create!(:in_reply => @activity, :verb => 'like')
+    end
     redirect_to root_url
   end
 

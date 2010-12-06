@@ -26,17 +26,19 @@ class RelationshipsController < ApplicationController
   def create
     if user = User.find_by_email(params[:friend][:email]) || User.find_by_jid(params[:friend][:email])
       relationship = current_user.relationships.build(:friend => user)
-
-      if relationship.save
-        flash[:message] = "Friend request sent to #{user.name}. We'll let you know if they accept."
-      else
-        flash[:message] = "You have an outstanding friend request to #{user.name}."
-      end
+      relationship.save
     else
-      # Invite...
+      user = User.new(:email => params[:friend][:email])
+      user.skip_confirmation!
+      user.save(:validate => false)
+      
+      relationship = current_user.relationships.build(:friend => user)
+      relationship.save
 
-      raise Exception
+      user.invite!
     end
+
+    flash[:message] = "Friend request sent to #{user.name}. We'll let you know if they accept."
 
     redirect_to root_url
   end

@@ -4,11 +4,27 @@
   <%= devise_error_messages! %>
   <%= f.hidden_field :invitation_token %>
 
-  <p><%= f.label :password %><br />
-  <%= f.password_field :password %></p>
+  <div class="f">
+    <%= f.label :username %>
+    <%= f.text_field :username, :style => 'width: 120px' %> @ <%= Diaspora::Application.config.server_name %>
+  </div>
 
-  <p><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></p>
+  <div class="f">
+    <%= f.label :email %>
+    <%= User.find_by_invitation_token(f.object.invitation_token).email %> <!-- fixme -->
+  </div>
 
-  <p><%= f.submit "Set my password" %></p>
+  <div class="f">
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
+
+  <div class="f">
+    <%= f.label :password_confirmation, 'Confirm password' %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+
+  <div class="f">
+    <%= f.submit "Set my password" %>
+  </div>
 <% end %>
