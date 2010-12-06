@@ -30,7 +30,7 @@
     <% friend.activities.wall_posts.each do |a| %>
       <li>
         <%= a.content %><br />
-        <small style="color: #777"><%= time_ago_in_words a %> ago</small>
+        <small style="color: #777"><%= time_ago_in_words a.created_at %> ago</small>
       </li>
     <% end %>
   </ul>
