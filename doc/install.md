@@ -113,9 +113,9 @@ Now install rubygems from source. First download it from [rubygems.org](http://r
     ruby setup.rb
     ln -s /usr/bin/gem1.8 /usr/bin/gem
     
-Finally - install bundler.
+Finally - install bundler and rake.
 
-    gem install bundler
+    gem install bundler rake
 
 # Install the diaspora-x app
 
@@ -137,6 +137,10 @@ On your server - set up your deployment system like so:
     echo "env -i git checkout -f" >> .git/hooks/post-receive
     echo "make post-deploy" >> .git/hooks/post-receive
     chmod +x .git/hooks/post-receive
+    
+Then make sure your normal user has permissions to deploy:
+
+    chown -R your_username:your_username .
 
 Then create a Makefile in /var/apps/diaspora-x that looks like this:
 
@@ -145,7 +149,12 @@ Then create a Makefile in /var/apps/diaspora-x that looks like this:
         RAILS_ENV=production rake db:migrate
         touch tmp/restart.txt
 
-Then on your local box
+Then on your _local box_:
+
+    git remote add prod yourdomain.com:/var/apps/diaspora-x
+    git config remote.prod.fetch +master:master
+    git push prod master:master
+
 # Set up monit to run connector.rb
 
-The connector 
+The connector

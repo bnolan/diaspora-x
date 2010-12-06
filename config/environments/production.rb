@@ -49,4 +49,8 @@ Diaspora::Application.configure do
 
   # For devise invitable
   config.action_mailer.default_url_options = { :host => config.server_name }
+
+  # Production
+  config.server_name = "diaspora-x.com"
+
 end
