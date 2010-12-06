@@ -13,7 +13,7 @@ end
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = "<Diaspora*x Mailer>mailer@#{Diaspora::Application.config.server_name}"
+  config.mailer_sender = "Diaspora*x Mailer<mailer@#{Diaspora::Application.config.server_name}>"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
