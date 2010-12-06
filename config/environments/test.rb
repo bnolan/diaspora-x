@@ -35,4 +35,7 @@ Diaspora::Application.configure do
 
   # Name of the jabber domain
   config.server_name = "boomba.local"
+
+  # For devise invitable
+  config.action_mailer.default_url_options = { :host => config.server_name }
 end

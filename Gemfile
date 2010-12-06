@@ -11,6 +11,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 # gem 'unicorn'
 
 gem "devise"
+gem 'devise_invitable'
 gem 'xmpp4r'
 
 # Deploy with Capistrano
