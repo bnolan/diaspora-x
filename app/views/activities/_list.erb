@@ -7,13 +7,16 @@
       <h4><%= link_to a.user.name, a.user %></h4>
       <p class="content"><%= content_format a.content %></p>
       <p class="meta">
-        About <%= time_ago_in_words a.created_at %> ago |
+        <%= time_ago_in_words a.created_at %> ago |
         <% if a.likes.collect(&:user).include? current_user %>
           <%= link_to "Unlike", unlike_activity_url(a) %> |
         <% else %>
           <%= link_to "Like", like_activity_url(a) %> |
         <% end %>
         <%= link_to_javascript "Comment", "$(this).parents('.activity').find('form').show().find('textarea').focus()" %>
+        <% if a.user == current_user %>
+          | <%= link_to 'Delete', a, :method => 'delete' %>
+        <% end %>
       </p>
       <% if a.likes.any? or a.comments.any? %>
         <div class="comments">
@@ -28,11 +31,16 @@ a.likes.length > 1 ? "like" : "likes" %> this.
         
           <% a.comments.each do |c| %>
             <div class="comment">
-              <%= image_tag 'avatar.png', :class => 'micro avatar' %>
+              <%= image_tag c.user.gravatar, :class => 'micro avatar' %>
               <p class="content">
                 <%= link_to c.user.name, c.user %> <%= content_format c.content %>
               </p>
-              <span class="meta"><%= time_ago_in_words c.created_at %> ago</span>
+              <span class="meta">
+                <%= time_ago_in_words c.created_at %> ago
+                <% if c.user == current_user %>
+                  | <%= link_to 'Delete', c, :method => 'delete' %>
+                <% end %>
+              </span>
             </div>
           <% end %>
         </div>

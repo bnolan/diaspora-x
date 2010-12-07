@@ -63,4 +63,12 @@ class User < ActiveRecord::Base
   end
   
   # @activities = Activity.find(:all, :order => 'created_at desc', :conditions => {:in_reply_to => nil, :type => 'status'}, :limit => 50)
+  
+  
+  protected
+  
+  # def register_jabber_id
+  #   "erl -setcookie `cat #{Rails::root}/config/erlang-cookie` -noinput -sname ejactl -pa /usr/lib/ejabberd/ebin -s ejabberd_ctl -extra ejabberd@`hostname` register #{username} #{Diaspora::Application.config.server_name} #{encrypted_password}"
+  # end
+  
 end

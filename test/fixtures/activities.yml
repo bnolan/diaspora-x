@@ -14,5 +14,5 @@ ben_hello:
 ben_reply:
   user: ben
   verb: post
-  in_reply_to: ben_hello
+  in_reply: ben_hello
   content: BLAH BLAH BLAH

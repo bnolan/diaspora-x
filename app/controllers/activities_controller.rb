@@ -1,8 +1,14 @@
 class ActivitiesController < ApplicationController
+
+  def destroy
+    activity = current_user.activities.find params[:id]
+    activity.mark_as_deleted!
+    redirect_to root_url
+  end
   
   def create
     activity = current_user.activities.create! params[:activity]
-    redirect_to :back
+    redirect_to root_url
   end
   
   def like

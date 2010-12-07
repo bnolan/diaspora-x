@@ -34,25 +34,14 @@ Choose Internet site, and set the name of your domain. You should also create co
 
     sudo aptitude install ejabberd
 
-Configure the jabber server to allow registrations by editing `/etc/ejabberd/ejabberd.cfg`.
-
-    %% No username can be registered via in-band registration:
-    %% To enable in-band registration, replace 'deny' with 'allow'
-    % (note that if you remove mod_register from modules list then users will not
-    % be able to change their password as well as register).
-    % This setting is default because it's more safe.
-    {access, register, [{allow, all}]}.
-    
-Set the delay between registrations to 0.
-
-    %% By default frequency of account registrations from the same IP
-    %% is limited to 1 account every 10 minutes. To disable put: infinity
-    {registration_timeout, 0}.
-
-Set your domain name:
+Set your domain name by editing `/etc/ejabberd/ejabberd.cfg`:
 
     %% Hostname
-    {hosts, ["jabber.diaspora-x.com", "localhost"]}.
+    {hosts, ["diaspora-x.com", "localhost"]}.
+
+Copy the ejabberd cookie to your diaspora-x install:
+
+    cp /var/lib/ejabberd/.erlang.cookie /var/apps/diaspora-x/config/erlang-cookie
 
 Restart ejabberd:
 
@@ -75,9 +64,9 @@ CNAME records:
     
 SRV records:
 
-    _xmpp-client._tcp:5222 jabber.yourdomain.com
-    _xmpp-server._tcp:5269 jabber.yourdomain.com
-    _jabber._tcp:5269 jabber.yourdomain.com
+    _xmpp-client._tcp:5222 yourdomain.com
+    _xmpp-server._tcp:5269 yourdomain.com
+    _jabber._tcp:5269 yourdomain.com
 
 On GoDaddy - your SRV records should look like this:
 
@@ -91,7 +80,7 @@ Once you have your records set up correctly you're ready to move on.
 
 # Test your jabber setup
 
-Install [PSI](http://.../) and try and register an account with `jabber.yourdomain.com`.
+Install [PSI](http://.../) and try and register an account with `yourdomain.com`.
 
 # Install ruby on rails and passenger (5 minutes)
 
