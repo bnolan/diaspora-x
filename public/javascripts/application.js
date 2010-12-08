@@ -43,4 +43,11 @@ $(document).ready(function(){
   app.initialize();
 
 	$('p.content a.external').embedly({ maxWidth : 360, 'method' : 'afterParent' });
+	
+	 $("textarea").keydown(function(e){
+			if ((e.metaKey || e.shiftKey) && e.keyCode === 13) {
+				$(this).parents("form").submit();
+				e.preventDefault();
+			}
+		});
 });
