@@ -27,6 +27,10 @@ class Relationship < ActiveRecord::Base
     save!
   end
 
+  def create_reverse!
+    update_reverse!
+  end
+  
   protected
 
   def update_reverse!
