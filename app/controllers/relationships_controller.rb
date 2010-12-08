@@ -28,7 +28,7 @@ class RelationshipsController < ApplicationController
       relationship = current_user.relationships.build(:friend => user)
       relationship.save
     else
-      user = User.new(:email => params[:friend][:email])
+      user = User.new(:email => params[:friend][:email], :jid => params[:friend][:email])
       user.skip_confirmation!
       user.save(:validate => false)
       

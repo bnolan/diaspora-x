@@ -69,19 +69,22 @@ class User < ActiveRecord::Base
   
   # @activities = Activity.find(:all, :order => 'created_at desc', :conditions => {:in_reply_to => nil, :type => 'status'}, :limit => 50)
   
-  
   protected
   
+  def is_local?
+    jid.sub(/^.+@/,'') == Diaspora::Application.config.server_name
+  end
+  
   def register_jabber_id
-    if local? and confirmed_at
-      system Diaspora::Application.config.ejabberdctl, "register", username, Diaspora::Application.config.server_name, encrypted_password
+    if is_local? and confirmed_at
+      system(Diaspora::Application.config.ejabberdctl, "register", username, Diaspora::Application.config.server_name, encrypted_password)
     end
   end
   
   def change_jabber_password
-    if local? and confirmed_at
+    if is_local? and confirmed_at
       # requires mod_admin_extra - http://www.ejabberd.im/mod_admin_extra
-      system Diaspora::Application.config.ejabberdctl, "change_password", username, Diaspora::Application.config.server_name, encrypted_password
+      system(Diaspora::Application.config.ejabberdctl, "change_password", username, Diaspora::Application.config.server_name, encrypted_password)
     end
   end
   

@@ -6,42 +6,6 @@ require 'xmpp4r/vcard'
 require 'xmpp4r/caps'
 require 'xmpp4r/roster/helper/roster'
 
-# class VcardCache < Jabber::Vcard::Helper
-#   attr_reader :vcards
-# 
-#   def initialize(stream)
-#     super
-#     @vcards = {}
-#   end
-# 
-#   def get(jid)
-#     unless @vcards[jid]
-#       begin
-#         @vcards[jid] = super
-#       rescue Jabber::ServerError
-#         @vcards[jid] = :error
-#       end
-#     end
-# 
-#     @vcards[jid]
-#   end
-# 
-#   def get_until(jid, timeout=10)
-#     begin
-#       Timeout::timeout(timeout) {
-#         get(jid)
-#       }
-#     rescue Timeout::Error
-#       @vcards[jid] = :timeout
-#     end
-# 
-#     @vcards[jid]
-#   end
-# end
-# 
-# MAX_ITEMS = 50
-# $jid_items = []
-
 class ConnectorBot < Jabber::Framework::Bot
   include REXML
   
@@ -59,7 +23,7 @@ class ConnectorBot < Jabber::Framework::Bot
   
   def accept_subscription_from?(jid)
     friend = self.find_by_jid(jid)
-
+  
     relationship = Relationship.find(:first, :conditions => {:user_id => friend.id, :friend_id => @user.id})
     
     if not relationship
@@ -78,7 +42,7 @@ class ConnectorBot < Jabber::Framework::Bot
     friend = self.find_by_jid(jid)
     
     activity = friend.activities.find_or_create_by_uuid item.attributes['id']
-
+  
     if e = XPath.first(item, "//atom:content", { "atom" => "http://www.w3.org/2005/Atom" })
       activity.content = e.text
     end
@@ -94,12 +58,26 @@ class ConnectorBot < Jabber::Framework::Bot
     if e = XPath.first(item, "//atom:updated", { "atom" => "http://www.w3.org/2005/Atom" })
       activity.updated_at = DateTime.parse(e.text)
     end
+  
+    puts " < #{@user.jid} recieved #{activity.verb} from #{activity.user.jid}"
 
     activity.save!
   end
   
   def process_records!
-    # records = 
+    @user.activities.unfederated.each do |a|
+      
+    end
+    
+    relationships = Relationship.find(:all, :conditions => ['federated = ? and user_id = ?', false, @user.id])
+    relationships.each do |r|
+      if r.friend.jid.present?  # fixme - needs refactoring.
+        roster.add Jabber::JID.new(r.friend.jid), nil, true
+        puts " > #{@user.jid} friended #{r.friend.jid}"
+      end
+      
+      r.federated!
+    end
   end
   
   protected
@@ -111,7 +89,7 @@ class ConnectorBot < Jabber::Framework::Bot
     end
     
     vcard = @vcard.get(user.jid)
-
+  
     if vcard
       user.update_attributes!(
         :description => vcard['DESC'],
@@ -149,12 +127,14 @@ class ConnectorBot < Jabber::Framework::Bot
     user = User.find_by_jid(jid.to_s)
     
     if not user
-      user = User.create!(
+      user = User.new(
         :jid => jid.to_s,
-        :local => (jid.domain == Diaspora::Application.config.server_name),
-        :email => jid.to_s,
-        :password => 'plz-fix' # fix devise validation - fixme
+        :local => (jid.domain == Diaspora::Application.config.server_name)
+        # :email => jid.to_s,
+        # :password => 'plz-fix' # fix devise validation - fixme
       )
+      
+      user.save(:validate => false)
       
       update_user(user) unless user.local?
     end
@@ -166,105 +146,25 @@ end
 
 class Connector
   def initialize
-    Jabber::debug = (Rails::env != 'production')
+    # Jabber::debug = (Rails::env != 'production')
 
     @bots = {}
     
-    User.find(:all, :conditions => ['local=? and encrypted_password<>?', true, 'plz-fix']).each do |user|
-      @bots[user.id] = ConnectorBot.new(user)
+    User.find(:all, :conditions => ['local=? AND jid is not null AND encrypted_password <> ? AND confirmed_at is not null', true, ""]).each do |user|
+      begin
+        @bots[user.id] = ConnectorBot.new(user)
+        puts " * Connected as #{user.jid}"
+      rescue Jabber::ClientAuthenticationFailure
+        puts " ! Unable to authenticate as #{user.jid}"
+      end
     end
-
+    
     loop do
       @bots.each do |id, bot|
         bot.process_records!
       end
       
-      sleep 1
+      sleep 5
     end
   end
 end
-
-
-# $bot = Jabber::Framework::Bot.new(JID, PASSWORD)
-
-# caps = Jabber::Caps::Helper.new($bot.client,
-#   [Jabber::Discovery::Identity.new('client', nil, 'pc')],
-#   [Jabber::Discovery::Feature.new('urn:xmpp:microblog:0')]
-# )
-
-# class << $bot
-#   def accept_subscription_from?(jid)
-#     roster.add(jid, nil, true)
-#     true
-#   end
-# end
-
-# $vcards = VcardCache.new($bot.stream)
-# xml_namespaces('index.xsl', %w(xmlns xsl pa j p)).each { |prefix,node|
-#         $bot.add_pep_notification(node) do |from,item|
-#           
-#           puts item.inspect
-#           
-#           from.strip!
-#           item.add_namespace(Jabber::PubSub::NS_PUBSUB)
-#           item.attributes['node'] = node
-#           is_duplicate = false
-#           $jid_items.each { |jid1,item1|
-#             if jid1.to_s == from.to_s and node == item1.attributes['node']
-#               is_duplicate = (item.to_s == item1.to_s)
-#               break
-#             end
-#           }
-#           unless is_duplicate
-#             $jid_items.unshift([from, item])
-#             $jid_items = $jid_items[0..(MAX_ITEMS-1)]
-#           end
-#         end
-#       }
-# 
-
-# class WebController < Ramaze::Controller
-#   map '/'
-#   # template_root __DIR__
-#   # engine :XSLT
-# 
-#   def index
-#     "<?xml version='1.0' encoding='UTF-8'?>" +
-#       "<items xmlns:jabber='jabber:client' jabber:to='#{Jabber::JID.new(JID).strip}'>" +
-#       $jid_items.collect do |jid,item_orig|
-#         item = item_orig.deep_clone
-#         item.attributes['jabber:from'] = jid.to_s
-#         vcard = $vcards.get_until(jid)
-#         if vcard.kind_of? Jabber::Vcard::IqVcard
-#           item.attributes['jabber:from-name'] = vcard['NICKNAME'] || vcard['FN'] || jid.node
-#           item.attributes['jabber:has-avatar'] = (vcard['PHOTO/TYPE'] and
-#                                                   vcard['PHOTO/BINVAL']) ? 'true' : 'false'
-#         else
-#           item.attributes['jabber:from-name'] = jid.node
-#           item.attributes['jabber:has-avatar'] = 'false'
-#         end
-#         item
-#       end.join +
-#       "</items>"
-#   end
-# 
-#   def avatar(jid)
-#     trait :engine => :None
-# 
-#     vcard = $vcards.get_until(jid)
-#     if vcard.kind_of? Jabber::Vcard::IqVcard
-#       if vcard['PHOTO/TYPE'] and vcard.photo_binval
-#         response['Content-Type'] = vcard['PHOTO/TYPE']
-#         response.body = vcard.photo_binval
-#       else
-#         response['Status'] = 404
-#       end
-#     else
-#         response['Status'] = 404
-#     end
-# 
-#     throw :respond
-#   end
-# end
-# 
-# Ramaze::start(:port => HTTP_PORT)
