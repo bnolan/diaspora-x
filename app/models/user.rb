@@ -6,9 +6,10 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :email, :password, :password_confirmation, :remember_me
 
-  after_create :register_jabber_id, :if => Proc.new { local? and confirmed_at }
-  after_save :change_jabber_password, :if => Proc.new { local? and confirmed_at }
+  after_create :register_jabber_id
+  after_save :change_jabber_password
   
+  validates_format_of :username, :with => /^[a-z0-9_-]+$/
   validates_presence_of :username
   validates_uniqueness_of :jid, :if => Proc.new { jid.present? }
   
@@ -24,6 +25,7 @@ class User < ActiveRecord::Base
   # end
 
   def username=(x)
+    x.downcase!
     self.jid = "#{x}@#{Diaspora::Application.config.server_name}"
     super
   end
@@ -71,14 +73,16 @@ class User < ActiveRecord::Base
   protected
   
   def register_jabber_id
-    command = "#{Diaspora::Application.config.ejabberdctl} register #{username} #{Diaspora::Application.config.server_name} #{encrypted_password}"
-    system command
+    if local? and confirmed_at
+      system Diaspora::Application.config.ejabberdctl, "register", username, Diaspora::Application.config.server_name, encrypted_password
+    end
   end
   
   def change_jabber_password
-    # requires mod_admin_extra - http://www.ejabberd.im/mod_admin_extra
-    command = "#{Diaspora::Application.config.ejabberdctl} change_password #{username} #{Diaspora::Application.config.server_name} #{encrypted_password}"
-    system command
+    if local? and confirmed_at
+      # requires mod_admin_extra - http://www.ejabberd.im/mod_admin_extra
+      system Diaspora::Application.config.ejabberdctl, "change_password", username, Diaspora::Application.config.server_name, encrypted_password
+    end
   end
   
 end
