@@ -10,24 +10,29 @@ ben_rissa:
   user: ben
   friend: rissa
   accepted: true
+  federated: false
   
 rissa_ben:
   user: rissa
   friend: ben
   accepted: true
+  federated: true
   
 sam_ben:
   user: sam
   friend: ben
   accepted: false
+  federated: true
 
 doug_ben:
   user: doug
   friend: ben
   accepted: false
+  federated: true
 
 ben_joe:
   user: ben
   friend: joe
   accepted: false
+  federated: true
 

@@ -4,6 +4,7 @@ class Relationship < ActiveRecord::Base
   default_scope :conditions => {:deleted => false}
   
   validates_uniqueness_of :friend_id, :scope => :user_id
+  scope :unfederated, :conditions => ['federated = ?', false]
 
   # attr_protected :accepted
   
@@ -21,6 +22,11 @@ class Relationship < ActiveRecord::Base
     update_reverse!
   end
   
+  def federated!
+    self.federated = true
+    save!
+  end
+
   protected
 
   def update_reverse!

@@ -21,5 +21,14 @@ class RelationshipTest < ActiveSupport::TestCase
     relationships(:ben_rissa).mark_as_deleted!
     assert users(:rissa).relationships.empty?
   end
+
+  test "unfederated" do
+    assert_equal 1, Relationship.unfederated.length
+  end
+  
+  test "federated!" do
+    relationships(:ben_rissa).federated!
+    assert_equal 0, Relationship.unfederated.length
+  end
   
 end
