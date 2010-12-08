@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :email, :password, :password_confirmation, :remember_me
 
+  after_create :register_jabber_id, :if => Proc.new { local? and confirmed_at }
+  after_save :change_jabber_password, :if => Proc.new { local? and confirmed_at }
+  
   validates_presence_of :username
   validates_uniqueness_of :jid, :if => Proc.new { jid.present? }
   
@@ -67,8 +70,15 @@ class User < ActiveRecord::Base
   
   protected
   
-  # def register_jabber_id
-  #   "erl -setcookie `cat #{Rails::root}/config/erlang-cookie` -noinput -sname ejactl -pa /usr/lib/ejabberd/ebin -s ejabberd_ctl -extra ejabberd@`hostname` register #{username} #{Diaspora::Application.config.server_name} #{encrypted_password}"
-  # end
+  def register_jabber_id
+    command = "#{Diaspora::Application.config.ejabberdctl} register #{username} #{Diaspora::Application.config.server_name} #{encrypted_password}"
+    system command
+  end
+  
+  def change_jabber_password
+    # requires mod_admin_extra - http://www.ejabberd.im/mod_admin_extra
+    command = "#{Diaspora::Application.config.ejabberdctl} change_password #{username} #{Diaspora::Application.config.server_name} #{encrypted_password}"
+    system command
+  end
   
 end

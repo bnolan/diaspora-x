@@ -38,4 +38,7 @@ Diaspora::Application.configure do
 
   # For devise invitable
   config.action_mailer.default_url_options = { :host => config.server_name }
+  
+  # ..
+  config.ejabberdctl = "echo"
 end

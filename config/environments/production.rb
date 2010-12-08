@@ -53,4 +53,6 @@ Diaspora::Application.configure do
   # For devise invitable
   config.action_mailer.default_url_options = { :host => config.server_name }
 
+  # For ejabberd
+  config.ejabberdctl = "erl -setcookie `cat #{Rails::root}/config/erlang-cookie` -noinput -sname ejactl -pa /usr/lib/ejabberd/ebin -s ejabberd_ctl -extra ejabberd@`hostname`"
 end
