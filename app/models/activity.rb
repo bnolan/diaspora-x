@@ -7,6 +7,7 @@ class Activity < ActiveRecord::Base
   scope :visible_to, lambda { |user|
     where("in_reply_to is null AND user_id in (?)", user.friends.collect(&:id).push(user.id))
   }
+  scope :unfederated, :conditions => ['federated = ?', false]
 
   scope :wall_posts, :conditions => 'in_reply_to is null'
   
@@ -33,5 +34,10 @@ class Activity < ActiveRecord::Base
     self.federated = false
     save!
   end
-      
+
+  def federated!
+    self.federated = true
+    save!
+  end
+  
 end

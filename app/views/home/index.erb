@@ -34,12 +34,14 @@
     
     <p>
        This site is based on <a href="http://onesocialweb.org/spec/1.0/osw-activities.html">Activitystreams</a>
-       and interoperates with other sites using the same protocol. Your friends can add you at this address:
-    </p>
-    
+       and interoperates with other sites using the same protocol. 
+         You can connect to diaspora*x using <b>ichat</b>, <b>miranda</b> or any other <a href="http://www.google.com/talk/otherclients.html">jabber client</b> by using this address and the password you sign in with:
+       </p>
+
     <p>
       &nbsp; &nbsp; <b><%= current_user.jid %></b>
     </p>
+    
   </div>
   
   <% if @friend_requests.any? %>
